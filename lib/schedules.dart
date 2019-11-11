@@ -142,6 +142,10 @@ Future <void> _showvoice(BuildContext context) async {
     }
   }
 
+Future <void> _showmanual(BuildContext context) async {
+    var event = await Navigator.pushNamed(context, '/manual');
+  }
+
   Future <void> _showDialog(BuildContext context) async {
     // flutter defined function
     showDialog(
@@ -153,6 +157,12 @@ Future <void> _showvoice(BuildContext context) async {
           content: new Text("Alert Dialog body"),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
+             new FlatButton(
+              child: new Text("Manual"),
+              onPressed: () {
+                _showmanual(context);
+              },
+            ),
             new FlatButton(
               child: new Text("Chat"),
               onPressed: () {
@@ -170,7 +180,8 @@ Future <void> _showvoice(BuildContext context) async {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-            )
+            ),
+            
           ],
         );
       },
