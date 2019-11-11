@@ -1,3 +1,4 @@
+import 'package:final_project_jarvis/Scheduling.dart';
 import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'voice.dart';
@@ -25,7 +26,10 @@ class MyApp extends StatelessWidget {
         },
         '/schedules': (BuildContext context) {
           return new MyHomePage();
-        }
+        },
+        '/manual': (BuildContext context) {
+          return SchedulingPage(title: 'Schedule An Event');
+        },
       }
     );
   }
