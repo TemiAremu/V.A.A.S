@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dialogflow/dialogflow_v2.dart';
+import 'chat.dart';
+import 'voice.dart';
 
 void main() => runApp(new MyApp());
 
@@ -9,173 +10,158 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Example Dialogflow Flutter',
       theme: new ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.orange,  
       ),
       debugShowCheckedModeBanner: false,
-      home: new HomePageDialogflow(),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
+       routes: <String, WidgetBuilder>{
+        '/chat': (BuildContext context) {
+          return new HomePageDialogflow();
+        },
+        '/voice': (BuildContext context) {
+          return new VoiceHome();
+        }
+      }
     );
   }
 }
 
-class HomePageDialogflow extends StatefulWidget {
-  HomePageDialogflow({Key key, this.title}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
+   
+
   @override
-  _HomePageDialogflow createState() => new _HomePageDialogflow();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _HomePageDialogflow extends State<HomePageDialogflow> {
-  final List<ChatMessage> _messages = <ChatMessage>[];
-  final TextEditingController _textController = new TextEditingController();
+List<String> schedulelist = [
+    "Test1", "Test2", "Test3", "Test4"
+  ];
 
-  Widget _buildTextComposer() {
-    return new IconTheme(
-      data: new IconThemeData(color: Theme.of(context).accentColor),
-      child: new Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: new Row(
-          children: <Widget>[
-            new Flexible(
-              child: new TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
-                    new InputDecoration.collapsed(hintText: "Send a message"),
-              ),
-            ),
-            new Container(
-              margin: new EdgeInsets.symmetric(horizontal: 4.0),
-              child: new IconButton(
-                  icon: new Icon(Icons.send),
-                  onPressed: () => _handleSubmitted(_textController.text)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void Response(query) async {
-    _textController.clear();
-    AuthGoogle authGoogle =
-        await AuthGoogle(fileJson: "assets/JARVIS-83743aeeb4f1.json")
-            .build();
-    Dialogflow dialogflow =
-        Dialogflow(authGoogle: authGoogle, language: Language.english);
-    AIResponse response = await dialogflow.detectIntent(query);
-    ChatMessage message = new ChatMessage(
-      text: response.getMessage() ??
-          new CardDialogflow(response.getListMessage()[0]).title,
-      name: "Bot",
-      type: false,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    ChatMessage message = new ChatMessage(
-      text: text,
-      name: "Promise",
-      type: true,
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-    Response(text);
-  }
-
-  @override
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+   bool isSelected;
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        title: new Text("Flutter and Dialogflow"),
+    return Scaffold(
+      appBar: AppBar
+      (
+        title: Text("Schedule list"),
+        actions: <Widget>
+        [
+          IconButton(
+            icon: Icon(Icons.mic),
+            onPressed: () 
+            { 
+              
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () 
+            { 
+                
+            }
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () 
+            { 
+              
+            }
+          ),
+    
+        ]
+
       ),
-      body: new Column(children: <Widget>[
-        new Flexible(
-            child: new ListView.builder(
-          padding: new EdgeInsets.all(8.0),
-          reverse: true,
-          itemBuilder: (_, int index) => _messages[index],
-          itemCount: _messages.length,
-        )),
-        new Divider(height: 1.0),
-        new Container(
-          decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-          child: _buildTextComposer(),
+      body: 
+      Container(
+       child: new ListView.builder
+        (
+          itemCount: schedulelist.length,
+          itemBuilder: (BuildContext ctxt, int index) 
+          {            
+            return new Card
+            ( 
+              child: Container(
+                child: GestureDetector(
+                  child: tilebuild(schedulelist[index], schedulelist[index] + "SUB", index),
+                  onTap: () => setState((){ _selectedIndex = index; isSelected = true;})
+                )
+              )
+            );
+          }
         ),
-      ]),
+
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed:(){
+              _showDialog(context);
+            },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.deepOrange,
+        ),
     );
+  }
+
+   Widget tilebuild(String sid,String grade,int index)
+  {
+    bool isSelected = _selectedIndex == index;
+    return Container(
+      decoration: BoxDecoration(color: isSelected ? Colors.orange :Colors.white),
+      child: ListTile(
+          title: Text(sid),
+          subtitle: Text(grade),
+        )
+      );
   }
 }
 
-class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text, this.name, this.type});
-
-  final String text;
-  final String name;
-  final bool type;
-
-  List<Widget> otherMessage(context) {
-    return <Widget>[
-      new Container(
-        margin: const EdgeInsets.only(right: 16.0),
-        child: new CircleAvatar(child: new Text('B')),
-      ),
-      new Expanded(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Text(this.name,
-                style: new TextStyle(fontWeight: FontWeight.bold)),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: new Text(text),
-            ),
-          ],
-        ),
-      ),
-    ];
+Future <void> _showchat(BuildContext context) async {
+    var event1 = await Navigator.pushNamed(context, '/chat');
   }
 
-  List<Widget> myMessage(context) {
-    return <Widget>[
-      new Expanded(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            new Text(this.name, style: Theme.of(context).textTheme.subhead),
-            new Container(
-              margin: const EdgeInsets.only(top: 5.0),
-              child: new Text(text),
-            ),
-          ],
-        ),
-      ),
-      new Container(
-        margin: const EdgeInsets.only(left: 16.0),
-        child: new CircleAvatar(
-            child: new Text(
-          this.name[0],
-          style: new TextStyle(fontWeight: FontWeight.bold),
-        )),
-      ),
-    ];
+Future <void> _showvoice(BuildContext context) async {
+    var event = await Navigator.pushNamed(context, '/voice');
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      child: new Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: this.type ? myMessage(context) : otherMessage(context),
-      ),
+  Future <void> _showDialog(BuildContext context) async {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Alert Dialog title"),
+          content: new Text("Alert Dialog body"),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Chat"),
+              onPressed: () {
+                _showchat(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Voice"),
+              onPressed: () {
+                _showvoice(context);
+              },
+            ),
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
     );
   }
-}
+
+
+
+
