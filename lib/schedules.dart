@@ -3,14 +3,14 @@ import 'chat.dart';
 import 'voice.dart';
 import 'welcome.dart';
 
+import 'model/todo_model.dart';
+import 'model/todo.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
-
-   
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -22,6 +22,15 @@ List<String> schedulelist = [
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
    bool isSelected;
+
+  var _todoItem1;
+  var _todoItem2;
+  var _todoItem3;
+  var _todoItem4;
+
+  var _lastInsertedId = 0;
+  final _model = TodoModel();
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar
@@ -95,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       );
   }
-}
+
 
 Future <void> _showchat(BuildContext context) async {
     var event1 = await Navigator.pushNamed(context, '/chat');
@@ -103,6 +112,34 @@ Future <void> _showchat(BuildContext context) async {
 
 Future <void> _showvoice(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/voice');
+  }
+
+  Future<void> _addTodo() async {
+    Todo newTodo = Todo(name: _todoItem1,time: _todoItem2,date: _todoItem3,location: _todoItem4);
+    _lastInsertedId = await _model.insertTodo(newTodo);
+  }
+
+  Future<void> _updateTodo() async {
+    Todo todoToUpdate = Todo(
+      id: _lastInsertedId,
+      name: _todoItem1,
+      time: _todoItem2,
+      date: _todoItem3,
+      location: _todoItem4
+    );
+    _model.updateTodo(todoToUpdate);
+  }
+
+  Future<void> _deleteTodo() async {
+    _model.deleteTodo(_lastInsertedId);
+  }
+
+  Future<void> _listTodos() async {
+    List<Todo> todos = await _model.getAllTodos();
+    print('To Dos:');
+    for (Todo todo in todos) {
+      print(todo);
+    }
   }
 
   Future <void> _showDialog(BuildContext context) async {
@@ -139,3 +176,4 @@ Future <void> _showvoice(BuildContext context) async {
       },
     );
   }
+}
