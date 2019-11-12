@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'model/todo_model.dart';
+import 'model/todo.dart';
+
+import 'package:final_project_jarvis/Scheduling.dart';
+import 'package:flutter/material.dart';
+import 'chat.dart';
+import 'voice.dart';
+import 'welcome.dart';
+import 'schedules.dart';
+
 class Scheduling {
   String name;
   String location;
@@ -23,6 +33,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
   DateTime _eventDate = DateTime.now();
   String _eventName = '';
   String _eventLocation = '';
+
+   var _todoItem1;
+  var _todoItem2;
+  //var _todoItem3;
 
   @override 
   Widget build(BuildContext context) {
@@ -133,9 +147,8 @@ class _SchedulingPageState extends State<SchedulingPage> {
               child: RaisedButton(
                 child: Text('Save'),
                 onPressed: () {
-                  Navigator.of(context).pop(
-                    Scheduling(name: _eventName, location: _eventLocation, dateTime: _eventDate, )
-                  );
+                  Todo newTodotest = Todo(name: _eventName, dateTime: _eventDate.toString(), location: _eventLocation);
+                Navigator.pop(context,newTodotest);
                 },
               ),
             ),

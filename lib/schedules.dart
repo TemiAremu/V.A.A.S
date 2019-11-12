@@ -6,6 +6,7 @@ import 'welcome.dart';
 import 'model/todo_model.dart';
 import 'model/todo.dart';
 
+Todo t;
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -19,19 +20,40 @@ List<String> schedulelist = [
     "Test1", "Test2", "Test3", "Test4"
   ];
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-   bool isSelected;
+  List<Todo> slist = [
+   
+  ];
+
+  int listilelengthcheck = 1;
+
+    final _model = TodoModel();
+    bool isSelected;
+
+    bool isEmpty = true;
+
+     int _selectedIndex = 0;
+   
 
   var _todoItem1;
   var _todoItem2;
   var _todoItem3;
-  var _todoItem4;
 
-  var _lastInsertedId = 0;
-  final _model = TodoModel();
+class _MyHomePageState extends State<MyHomePage> {
+
+  var _lastInsertedId = 1;
+
+  @override
+  /*
+  void initState()
+  {
+    super.initState();
+    
+    updateTodo();
+  }
+  */
 
   Widget build(BuildContext context) {
+    //updateTodo();
     return Scaffold(
       appBar: AppBar
       (
@@ -39,24 +61,24 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>
         [
           IconButton(
-            icon: Icon(Icons.mic),
+            icon: Icon(Icons.refresh),
             onPressed: () 
             { 
-              
+              updateTodo();
             },
           ),
           IconButton(
             icon: Icon(Icons.edit),
             onPressed: () 
             { 
-                
+              
             }
           ),
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () 
             { 
-              
+              _deleteTodo();
             }
           ),
     
@@ -65,22 +87,24 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: 
       Container(
+        
        child: new ListView.builder
         (
-          itemCount: schedulelist.length,
+          itemCount: isEmpty ? 0 : slist.length,
           itemBuilder: (BuildContext ctxt, int index) 
-          {            
+          {         
             return new Card
             ( 
               child: Container(
                 child: GestureDetector(
-                  child: tilebuild(schedulelist[index], schedulelist[index] + "SUB", index),
+                  child: tilebuild(slist[index], index),
                   onTap: () => setState((){ _selectedIndex = index; isSelected = true;})
                 )
               )
             );
           }
         ),
+        
 
       ),
       floatingActionButton: FloatingActionButton(
@@ -93,14 +117,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-   Widget tilebuild(String sid,String grade,int index)
+   Widget tilebuild(Todo passedindex,int index)
   {
+    print(passedindex);
     bool isSelected = _selectedIndex == index;
     return Container(
       decoration: BoxDecoration(color: isSelected ? Colors.orange :Colors.white),
       child: ListTile(
-          title: Text(sid),
-          subtitle: Text(grade),
+          title: Text(passedindex.name + "    " + passedindex.dateTime),
+          subtitle: Text(passedindex.location),
         )
       );
   }
@@ -114,24 +139,40 @@ Future <void> _showvoice(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/voice');
   }
 
-  Future<void> _addTodo() async {
-    Todo newTodo = Todo(name: _todoItem1,time: _todoItem2,date: _todoItem3,location: _todoItem4);
+   Future<void> _addTodo() async {
+    print(t.name);
+    print(t.dateTime);
+    print(t.location);
+
+    
+    Todo newTodo = Todo(name: t.name, dateTime: t.dateTime, location: t.location);
     _lastInsertedId = await _model.insertTodo(newTodo);
+
+    isEmpty = false;
+    
+    slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
+
+    updateTodo();
+  
   }
 
-  Future<void> _updateTodo() async {
-    Todo todoToUpdate = Todo(
-      id: _lastInsertedId,
-      name: _todoItem1,
-      time: _todoItem2,
-      date: _todoItem3,
-      location: _todoItem4
-    );
-    _model.updateTodo(todoToUpdate);
+   Future<void> updateTodo() async {
+    //pages.clear();
+    
+    List<Todo> todos = await _model.getAllTodos();
+
+    setState(() => slist = todos);
+    
+    print(slist);
+
   }
 
   Future<void> _deleteTodo() async {
-    _model.deleteTodo(_lastInsertedId);
+    _model.deleteTodo(_selectedIndex+1);
+    slist.removeAt(_selectedIndex);
+    isEmpty = true;
+    updateTodo();
+    
   }
 
   Future<void> _listTodos() async {
@@ -144,6 +185,13 @@ Future <void> _showvoice(BuildContext context) async {
 
 Future <void> _showmanual(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/manual');
+     t = event;
+
+    if(t.name != null && t.dateTime != null && t.location != null)
+    {
+         _addTodo();
+    }
+
   }
 
   Future <void> _showDialog(BuildContext context) async {

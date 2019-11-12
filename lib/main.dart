@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,  
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePageWelcome(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
+      //MyHomePageWelcome(title: 'Flutter Demo Home Page'),
        routes: <String, WidgetBuilder>{
         '/chat': (BuildContext context) {
           return new HomePageDialogflow();
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
           return new VoiceHome();
         },
         '/schedules': (BuildContext context) {
-          return new MyHomePage();
+          return MyHomePage();
+          
         },
         '/manual': (BuildContext context) {
           return SchedulingPage(title: 'Schedule An Event');

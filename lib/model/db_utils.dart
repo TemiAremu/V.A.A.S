@@ -11,7 +11,7 @@ class DBUtils {
         if (version > 1) {
           // downgrade path
         }
-        db.execute('CREATE TABLE todo_items(id INTEGER PRIMARY KEY, name TEXT, time TEXT, date TEXT, location TEXT)');
+        db.execute('CREATE TABLE todo_items(id INTEGER PRIMARY KEY, name TEXT, dateTime TEXT, location TEXT)');
       },
       version: 1,
     );
