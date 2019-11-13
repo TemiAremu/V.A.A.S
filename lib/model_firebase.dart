@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class modelFireBase {
   CollectionReference dbReplies = Firestore.instance.collection('replies');
   
-  Future <void> insertFirestoreItem(Todo todo)async{
+  Future <int> insertFirestoreItem(Todo todo)async{
     CollectionReference events = Firestore.instance.collection('Calendar Events');
     var newDocument = await events.add(todo.toMap());
     print(newDocument);

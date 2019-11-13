@@ -6,7 +6,13 @@ import 'welcome.dart';
 import 'model/todo_model.dart';
 import 'model/todo.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'model_firebase.dart';
+
 Todo t;
+
+ CollectionReference dbReplies = Firestore.instance.collection('replies');
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -152,6 +158,10 @@ Future <void> _showvoice(BuildContext context) async {
     
     slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
 
+  
+    //int testinsert = await insertFirestoreItem(newTodo);
+
+
     updateTodo();
   
   }
@@ -234,5 +244,25 @@ Future <void> _showmanual(BuildContext context) async {
         );
       },
     );
+  }
+
+  CollectionReference dbReplies = Firestore.instance.collection('replies');
+  
+  Future <int> insertFirestoreItem(Todo todo)async{
+    CollectionReference events = Firestore.instance.collection('Calendar Events');
+    var newDocument = await events.add(todo.toMap());
+    print(newDocument);
+    /*
+    Firestore.instance.runTransaction((Transaction tx) async {
+    var _result = await dbReplies.add(todo.toMap());
+    print(_result);
+    });
+    */
+  }
+
+  Future <void> deleteFirestoreItem(int id) async{
+    CollectionReference events = Firestore.instance.collection('Calendar Events');
+    await events.document(id.toString()).delete();
+    print("ID has been deleted");
   }
 }
