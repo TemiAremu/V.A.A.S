@@ -22,6 +22,14 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class SnackBar {
+
+  String title;
+  IconData icon;
+
+  SnackBar({this.title, this.icon});
+}
+
 List<String> schedulelist = [
     "Test1", "Test2", "Test3", "Test4"
   ];
@@ -45,6 +53,13 @@ List<String> schedulelist = [
   var _todoItem3;
 
 class _MyHomePageState extends State<MyHomePage> {
+
+List<SnackBar> _pages = [
+    SnackBar(title: 'Add', icon: Icons.add),
+    SnackBar(title: 'Chat', icon: Icons.chat),
+  ];
+
+  int _pageIndex = 0;
 
   var _lastInsertedId = 1;
 
@@ -113,13 +128,26 @@ class _MyHomePageState extends State<MyHomePage> {
         
 
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed:(){
+      bottomNavigationBar: BottomNavigationBar(
+       items: _pages.map((SnackBar page) {
+         return BottomNavigationBarItem(
+           icon: Icon(page.icon),
+           title: Text(page.title),
+         );
+       }).toList(),
+       onTap: (int index) {
+         setState(() {
+           if(index == 0)
+           {
               _showDialog(context);
-            },
-          child: Icon(Icons.add),
-          backgroundColor: Colors.deepOrange,
-        ),
+           }
+           if(index == 1)
+           {
+              _showchat(context);
+           }  
+         });
+       },     
+     ),
     );
   }
 
