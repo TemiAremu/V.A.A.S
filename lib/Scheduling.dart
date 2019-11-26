@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'notifications.dart';
+import 'notifications.dart';
 import 'model/todo_model.dart';
 import 'model/todo.dart';
 
@@ -30,7 +30,7 @@ class SchedulingPage extends StatefulWidget {
 }
 
 class _SchedulingPageState extends State<SchedulingPage> {
-  //var _notifications = Notifications(); //Kizito was here
+  var _notifications = Notifications(); //Kizito was here
 
   DateTime _eventDate = DateTime.now();
   String _eventName = '';
@@ -42,7 +42,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
 
   @override 
   Widget build(BuildContext context) {
-    //_notifications.init(); //Kizito was here
+    _notifications.init(); //Kizito was here
     DateTime now = DateTime.now();
     return Scaffold(
       appBar: AppBar(
@@ -149,11 +149,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
             Center(
               child: RaisedButton(
                 child: Text('Save'),
-                onPressed: // _notificationNow, 
-                () {
+                onPressed: () {
                   Todo newTodotest = Todo(name: _eventName, dateTime: _eventDate.toString(), location: _eventLocation);
                 Navigator.pop(context,newTodotest);
-                
+                _notificationNow();
                 },
               ),
             ),
@@ -181,9 +180,9 @@ class _SchedulingPageState extends State<SchedulingPage> {
 
 
 //Kizito was here to 
-  // void _notificationNow(){
-  //   _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
-  // }  
+   void _notificationNow(){
+     _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
+   }  
 
   // Future<void> _notificationLater() async {
   //   var when = DateTime.now().add(Duration(seconds: 3));
