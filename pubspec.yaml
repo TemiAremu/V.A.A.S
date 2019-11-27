@@ -32,6 +32,8 @@ dependencies:
   sqflite:
   path:
   flutter_local_notifications:
+  latlong:
+  flutter_map:
 
 dev_dependencies:
   flutter_test:

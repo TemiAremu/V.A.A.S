@@ -9,6 +9,7 @@ import 'model/todo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'model_firebase.dart';
+import 'map.dart';
 
 Todo t;
 
@@ -57,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
 List<SnackBar> _pages = [
     SnackBar(title: 'Add', icon: Icons.add),
     SnackBar(title: 'Chat', icon: Icons.chat),
+    SnackBar(title: 'Map', icon: Icons.map),
   ];
 
   int _pageIndex = 0;
@@ -144,6 +146,10 @@ List<SnackBar> _pages = [
            if(index == 1)
            {
               _showchat(context);
+           }
+           if(index == 2)
+           {
+             _maps(context);
            }  
          });
        },     
@@ -172,6 +178,10 @@ Future <void> _showchat(BuildContext context) async {
 Future <void> _showvoice(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/voice');
   }
+
+Future <void> _maps(BuildContext context) async {
+  var event2 = await Navigator.pushNamed(context, '/map');
+}
 
    Future<void> _addTodo() async {
     print(t.name);

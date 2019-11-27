@@ -4,6 +4,7 @@ import 'chat.dart';
 import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
+import 'map.dart';
 
 void main() => runApp(new MyApp());
 
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         '/manual': (BuildContext context) {
           return SchedulingPage(title: 'Schedule An Event');
         },
+        '/map': (BuildContext context) {
+          return new Map();
+        }
       }
     );
   }
