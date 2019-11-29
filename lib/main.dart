@@ -5,6 +5,7 @@ import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
 import 'chart.dart';
+import 'map.dart';
 
 void main() => runApp(new MyApp());
 
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
         '/chart': (BuildContext context) {
           return ChartPage(title: 'Most used locations');
         },
+        '/map': (BuildContext context) {
+          return new Map();
+        }
       }
     );
   }
