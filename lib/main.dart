@@ -4,6 +4,7 @@ import 'chat.dart';
 import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
+import 'chart.dart';
 
 void main() => runApp(new MyApp());
 
@@ -27,10 +28,12 @@ class MyApp extends StatelessWidget {
         },
         '/schedules': (BuildContext context) {
           return MyHomePage();
-          
         },
         '/manual': (BuildContext context) {
           return SchedulingPage(title: 'Schedule An Event');
+        },
+        '/chart': (BuildContext context) {
+          return ChartPage(title: 'Most used locations');
         },
       }
     );

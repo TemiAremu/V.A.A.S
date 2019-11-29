@@ -64,14 +64,14 @@ List<SnackBar> _pages = [
   var _lastInsertedId = 1;
 
   @override
-  /*
+  
   void initState()
   {
     super.initState();
     
     updateTodo();
   }
-  */
+  
 
   Widget build(BuildContext context) {
     //updateTodo();
@@ -81,6 +81,13 @@ List<SnackBar> _pages = [
         title: Text("Schedule list"),
         actions: <Widget>
         [
+          IconButton(
+            icon: Icon(Icons.table_chart),
+            onPressed: () 
+            { 
+              _showchart(context);
+            },
+          ),
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () 
@@ -164,6 +171,9 @@ List<SnackBar> _pages = [
       );
   }
 
+Future <void> _showchart(BuildContext context) async {
+    var event1 = await Navigator.pushNamed(context, '/chart');
+  }
 
 Future <void> _showchat(BuildContext context) async {
     var event1 = await Navigator.pushNamed(context, '/chat');
@@ -173,7 +183,7 @@ Future <void> _showvoice(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/voice');
   }
 
-   Future<void> _addTodo() async {
+Future<void> _addTodo() async {
     print(t.name);
     print(t.dateTime);
     print(t.location);
