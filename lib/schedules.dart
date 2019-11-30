@@ -9,11 +9,13 @@ import 'model/todo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'model_firebase.dart';
+import 'model/todoModelFirebase.dart';
+import 'model/todoFirebase.dart';
 import 'map.dart';
 
 Todo t;
 
- CollectionReference dbReplies = Firestore.instance.collection('replies');
+CollectionReference dbReplies = Firestore.instance.collection('replies');
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -42,6 +44,7 @@ List<String> schedulelist = [
   int listilelengthcheck = 1;
 
     final _model = TodoModel();
+    final _firebaseModel = TodoModelFireBase();
     bool isSelected;
 
     bool isEmpty = true;
@@ -202,7 +205,7 @@ Future <void> _maps(BuildContext context) async {
     
     Todo newTodo = Todo(name: t.name, dateTime: t.dateTime, location: t.location);
     _lastInsertedId = await _model.insertTodo(newTodo);
-
+    _firebaseModel.insertTodo(newTodo);
     isEmpty = false;
     
     slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
