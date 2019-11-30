@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           return ChartPage(title: 'Most used locations');
         },
         '/map': (BuildContext context) {
-          return new Map();
+          return new HomeMap();
         }
       }
     );

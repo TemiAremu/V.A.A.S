@@ -189,7 +189,7 @@ Future <void> _showvoice(BuildContext context) async {
     var event = await Navigator.pushNamed(context, '/voice');
   }
 
-Future<void> _addTodo() async {
+
 Future <void> _maps(BuildContext context) async {
   var event2 = await Navigator.pushNamed(context, '/map');
 }

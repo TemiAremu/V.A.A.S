@@ -9,6 +9,7 @@ import 'chat.dart';
 import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
+import 'map.dart';
 
 class Scheduling {
   String name;
@@ -66,12 +67,22 @@ class _SchedulingPageState extends State<SchedulingPage> {
             TextField(
               decoration: const InputDecoration(
                 labelText: "Location: ",
+                hintText: "2000 Simcoe Street North, Oshawa, ON"
               ),
               onChanged: (String newValue) {
                 setState(() {
                   _eventLocation = newValue;
+                  testaddress = newValue;
                 });
               },
+            ),
+            RaisedButton(
+              child: Text('lookup Location'), // Temi said I should change
+                  color: Colors.deepOrange,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    _maps(context);
+                  }
             ),
             
 
@@ -183,6 +194,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
    void _notificationNow(){
      _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
    }  
+
+   Future <void> _maps(BuildContext context) async {
+  var event2 = await Navigator.pushNamed(context, '/map');
+}
 
   // Future<void> _notificationLater() async {
   //   var when = DateTime.now().add(Duration(seconds: 3));
