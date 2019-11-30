@@ -62,6 +62,7 @@ List<SnackBar> _pages = [
     SnackBar(title: 'Add', icon: Icons.add),
     SnackBar(title: 'Chat', icon: Icons.chat),
     SnackBar(title: 'Map', icon: Icons.map),
+    //SnackBar(title: 'Translate', icon: Icons.g_translate),
   ];
 
   int _pageIndex = 0;
@@ -92,6 +93,13 @@ List<SnackBar> _pages = [
             { 
               _showchart(context);
             },
+          ),
+          IconButton(
+            icon: Icon(Icons.g_translate),
+            onPressed: ()
+            {
+              _translate(context);
+            },  
           ),
           IconButton(
             icon: Icon(Icons.refresh),
@@ -152,6 +160,7 @@ List<SnackBar> _pages = [
            if(index == 0)
            {
               _showDialog(context);
+              print(index);
            }
            if(index == 1)
            {
@@ -160,7 +169,13 @@ List<SnackBar> _pages = [
            if(index == 2)
            {
              _maps(context);
-           }  
+           }
+           /*
+           if(index == 3)
+           {
+             _translate(context);
+           } 
+           */
          });
        },     
      ),
@@ -195,6 +210,10 @@ Future <void> _showvoice(BuildContext context) async {
 
 Future <void> _maps(BuildContext context) async {
   var event2 = await Navigator.pushNamed(context, '/map');
+}
+
+Future <void> _translate(BuildContext context) async {
+  var event2 = await Navigator.pushNamed(context, '/translate');
 }
 
    Future<void> _addTodo() async {

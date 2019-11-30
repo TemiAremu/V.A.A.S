@@ -1,4 +1,7 @@
 import 'package:final_project_jarvis/Scheduling.dart';
+import 'package:final_project_jarvis/translate.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'voice.dart';
@@ -19,6 +22,15 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
+      localizationsDelegates: [
+        FlutterI18nDelegate(
+          useCountryCode: false,
+          fallbackFile: 'en',
+          path: 'assets/i18n',
+        ),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       //MyHomePageWelcome(title: 'Flutter Demo Home Page'),
        routes: <String, WidgetBuilder>{
         '/chat': (BuildContext context) {
@@ -38,6 +50,9 @@ class MyApp extends StatelessWidget {
         },
         '/map': (BuildContext context) {
           return new HomeMap();
+        },
+        '/translate': (BuildContext context){
+          return new NotePage();
         }
       }
     );
