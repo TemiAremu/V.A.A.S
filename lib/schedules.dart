@@ -49,6 +49,8 @@ List<String> schedulelist = [
 
     bool isEmpty = true;
 
+     bool toedit = false;
+
      int _selectedIndex = 0;
    
 
@@ -111,7 +113,8 @@ List<SnackBar> _pages = [
             icon: Icon(Icons.edit),
             onPressed: () 
             { 
-              
+              _edit();
+                toedit = true;
             }
           ),
           IconButton(
@@ -210,6 +213,34 @@ Future <void> _translate(BuildContext context) async {
   var event2 = await Navigator.pushNamed(context, '/translate');
 }
 
+
+ Future<void> _edit() async {
+       _showmanual(context);
+    }
+
+   Future<void> _editTodo() async {
+    /*
+    Todo todoToUpdate = Todo(
+      id: _selectedIndex,
+      //name: pages[_selectedIndex-1].sid,
+      //grade: pages[_selectedIndex-1].grade
+    );
+    _model.updateTodo(todoToUpdate);
+    */
+
+    Todo todoToUpdate = Todo(
+      id: _selectedIndex + 1,
+      name: t.name,
+      dateTime: t.dateTime,
+      location: t.location
+    );
+    _model.updateTodo(todoToUpdate);
+
+ 
+    toedit = false;
+    _updateTodo();
+  }
+
 Future<void> _addTodo() async {
     print(t.name);
     print(t.dateTime);
@@ -261,7 +292,13 @@ Future <void> _showmanual(BuildContext context) async {
 
     if(t.name != null && t.dateTime != null && t.location != null)
     {
+        if(toedit)
+      {
+        _editTodo();
+      }
+      else{
          _addTodo();
+      }
     }
 
   }
@@ -328,3 +365,4 @@ Future <void> _showmanual(BuildContext context) async {
     print("ID has been deleted");
   }
 }
+

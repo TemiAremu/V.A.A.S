@@ -103,12 +103,27 @@ class _Map extends State<HomeMap> {
 
   @override
   Widget build(BuildContext context) {
-    final centre = LatLng(lattitude,longitude);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text("My location"),
       ),
-      body: FlutterMap(
+      body: lattitude == null ? loading() : map(),
+    );
+  }
+
+  Widget loading()
+  {
+    return Container(
+        child: Text("MAP IS LOADING, PLEASE WAIT")
+      );
+  }
+
+
+  Widget map()
+  {
+    final centre = LatLng(lattitude,longitude);
+    return FlutterMap(
         options: MapOptions(
           minZoom: 16.0,
           center: centre,
@@ -141,8 +156,7 @@ class _Map extends State<HomeMap> {
             ],
           )
         ],
-      ),
-    );
+      );
   }
 
 }
