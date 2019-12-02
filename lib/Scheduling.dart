@@ -84,13 +84,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
                     _maps(context);
                   }
             ),
-            
-
-           Container(
-              padding: EdgeInsets.all(20.0),
-                  child: Text('Select Date and Time'),
-                
-                ), 
+             
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

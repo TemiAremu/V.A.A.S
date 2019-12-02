@@ -40,8 +40,8 @@ class TodoModel {
     List<Todo> todos = [];
     for (int i = 0; i < maps.length; i++) {
       todos.add(Todo.fromMap(maps[i]));
+    }
     return todos;
-  }
   }
 
   Future<Todo> getTodoWithId(int id) async {

@@ -38,7 +38,7 @@ List<String> schedulelist = [
   ];
 
   List<Todo> slist = [
-   
+   //Todo(name:"1",location: "2",dateTime: "3")
   ];
 
   int listilelengthcheck = 1;
@@ -61,7 +61,6 @@ class _MyHomePageState extends State<MyHomePage> {
 List<SnackBar> _pages = [
     SnackBar(title: 'Add', icon: Icons.add),
     SnackBar(title: 'Chat', icon: Icons.chat),
-    SnackBar(title: 'Map', icon: Icons.map),
     //SnackBar(title: 'Translate', icon: Icons.g_translate),
   ];
 
@@ -75,12 +74,12 @@ List<SnackBar> _pages = [
   {
     super.initState();
     
-    updateTodo();
+    _updateTodo();
   }
   
 
   Widget build(BuildContext context) {
-    //updateTodo();
+    //_updateTodo();
     return Scaffold(
       appBar: AppBar
       (
@@ -105,7 +104,7 @@ List<SnackBar> _pages = [
             icon: Icon(Icons.refresh),
             onPressed: () 
             { 
-              updateTodo();
+              _updateTodo();
             },
           ),
           IconButton(
@@ -131,7 +130,7 @@ List<SnackBar> _pages = [
         
        child: new ListView.builder
         (
-          itemCount: isEmpty ? 0 : slist.length,
+          itemCount: slist.length != null ?  slist.length: 0 ,
           itemBuilder: (BuildContext ctxt, int index) 
           {         
             return new Card
@@ -160,16 +159,13 @@ List<SnackBar> _pages = [
            if(index == 0)
            {
               _showDialog(context);
-              print(index);
+              
            }
            if(index == 1)
            {
               _showchat(context);
            }
-           if(index == 2)
-           {
-             _maps(context);
-           }
+          
            /*
            if(index == 3)
            {
@@ -208,15 +204,13 @@ Future <void> _showvoice(BuildContext context) async {
   }
 
 
-Future <void> _maps(BuildContext context) async {
-  var event2 = await Navigator.pushNamed(context, '/map');
-}
+
 
 Future <void> _translate(BuildContext context) async {
   var event2 = await Navigator.pushNamed(context, '/translate');
 }
 
-   Future<void> _addTodo() async {
+Future<void> _addTodo() async {
     print(t.name);
     print(t.dateTime);
     print(t.location);
@@ -225,34 +219,31 @@ Future <void> _translate(BuildContext context) async {
     Todo newTodo = Todo(name: t.name, dateTime: t.dateTime, location: t.location);
     _lastInsertedId = await _model.insertTodo(newTodo);
     _firebaseModel.insertTodo(newTodo);
+
+    //slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
     isEmpty = false;
     
-    slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
-
+    _updateTodo();
   
-    //int testinsert = await insertFirestoreItem(newTodo);
+}
 
-
-    updateTodo();
-  
-  }
-
-   Future<void> updateTodo() async {
+   Future<void> _updateTodo() async {
     //pages.clear();
     
-    List<Todo> todos = await _model.getAllTodos();
+    List<Todo> to = await _model.getAllTodos();
 
-    setState(() => slist = todos);
+    print(to);
+
+    setState(() => slist = to);
+
     
-    print(slist);
-
   }
 
   Future<void> _deleteTodo() async {
     _model.deleteTodo(_selectedIndex+1);
     slist.removeAt(_selectedIndex);
     isEmpty = true;
-    updateTodo();
+    _updateTodo();
     
   }
 

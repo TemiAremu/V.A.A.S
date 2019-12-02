@@ -37,7 +37,7 @@ dependencies:
   charts_flutter:
   flutter_i18n:
   location:
-  geolocator: '5.1.1'
+  geolocator: 
 
 dev_dependencies:
   flutter_test:
