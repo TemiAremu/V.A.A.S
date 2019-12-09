@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'main.dart';
+import 'notifications.dart';
+import 'model/todo_model.dart';
+import 'model/todo.dart';
 
 class HomePageDialogflow extends StatefulWidget {
   HomePageDialogflow({Key key, this.title}) : super(key: key);
@@ -58,6 +61,51 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     );
     setState(() {
       _messages.insert(0, message);
+      print(response.getMessage());
+      //var _notifications = Notifications();
+      //var _lastInsertedId = 1;
+      //Old idea: split message into array, since the message is consistent, we'll get the index for each variable and call the addEvent function
+      //New idea: Substring into string for each variable to be added
+      //then they can either exit or create another event
+      var m = response.getMessage();
+      var arr = m.split(" "); 
+      if (arr.length > 8){
+        if (arr[0] == "Done!"){
+          print("Hello");
+          var start = "Event ";
+          var end = " set";
+          var startIndex = m.indexOf(start);
+          var endIndex = m.indexOf(end, startIndex + start.length);
+          //print(m.substring(startIndex + start.length, endIndex));
+          //print(arr[5]);
+          //print(arr[6]);
+          var start2 = "set for";
+          var end2 = " at";
+          var startIndex2 = m.indexOf(start2);
+          var endIndex2 = m.indexOf(end2, startIndex2 + start2.length);
+
+          var start3 = "at ";
+          var end3 = " ...";
+          var startIndex3 = m.indexOf(start3);
+          var endIndex3 = m.indexOf(end3, startIndex3 + start3.length);
+
+          //print(m.substring(startIndex + start.length, endIndex));
+          //print(m.substring(startIndex2 + start2.length, endIndex2));
+          //print(m.substring(startIndex3 + start3.length, endIndex3));
+          var _eventName = m.substring(startIndex + start.length, endIndex);
+          var _eventDate = m.substring(startIndex2 + start2.length, endIndex2);
+          var _eventLocation = m.substring(startIndex3 + start3.length, endIndex3);
+          //var _eventDate = arr[6] + " " + arr[7];
+          //print(m.substring(startIndex2 + start2.length, endIndex2));
+          print(_eventName);
+          print(_eventDate);
+          print(_eventLocation);
+          //Todo newTodotest = Todo(name: _eventName, dateTime: _eventDate.toString(), location: _eventLocation);
+          //_lastInsertedId = await _model.insertTodo(newTodotest);
+          //_firebaseModel.insertTodo(newTodotest);
+          //_notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
+        }
+      }
     });
   }
 
