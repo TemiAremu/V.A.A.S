@@ -5,6 +5,21 @@ import 'notifications.dart';
 import 'model/todo_model.dart';
 import 'model/todo.dart';
 
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'model_firebase.dart';
+import 'model/todoModelFirebase.dart';
+import 'model/todoFirebase.dart';
+import 'map.dart';
+
+import 'schedules.dart';
+
+   final _model = TodoModel();
+   final _firebaseModel = TodoModelFireBase();
+   var _notifications = Notifications();
+   //var refresh = _MyHomePage();
+
 class HomePageDialogflow extends StatefulWidget {
   HomePageDialogflow({Key key, this.title}) : super(key: key);
 
@@ -59,16 +74,14 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
       name: "Bot",
       type: false,
     );
-    setState(() {
+    setState((){
       _messages.insert(0, message);
       print(response.getMessage());
-      //var _notifications = Notifications();
-      //var _lastInsertedId = 1;
-      //Old idea: split message into array, since the message is consistent, we'll get the index for each variable and call the addEvent function
-      //New idea: Substring into string for each variable to be added
-      //then they can either exit or create another event
+      
       var m = response.getMessage();
       var arr = m.split(" "); 
+
+      //Parsing trough the response to get the variables to add to the databases
       if (arr.length > 8){
         if (arr[0] == "Done!"){
           print("Hello");
@@ -76,9 +89,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
           var end = " set";
           var startIndex = m.indexOf(start);
           var endIndex = m.indexOf(end, startIndex + start.length);
-          //print(m.substring(startIndex + start.length, endIndex));
-          //print(arr[5]);
-          //print(arr[6]);
+
           var start2 = "set for";
           var end2 = " at";
           var startIndex2 = m.indexOf(start2);
@@ -89,24 +100,34 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
           var startIndex3 = m.indexOf(start3);
           var endIndex3 = m.indexOf(end3, startIndex3 + start3.length);
 
-          //print(m.substring(startIndex + start.length, endIndex));
-          //print(m.substring(startIndex2 + start2.length, endIndex2));
-          //print(m.substring(startIndex3 + start3.length, endIndex3));
+
           var _eventName = m.substring(startIndex + start.length, endIndex);
           var _eventDate = m.substring(startIndex2 + start2.length, endIndex2);
           var _eventLocation = m.substring(startIndex3 + start3.length, endIndex3);
-          //var _eventDate = arr[6] + " " + arr[7];
-          //print(m.substring(startIndex2 + start2.length, endIndex2));
-          print(_eventName);
-          print(_eventDate);
-          print(_eventLocation);
-          //Todo newTodotest = Todo(name: _eventName, dateTime: _eventDate.toString(), location: _eventLocation);
-          //_lastInsertedId = await _model.insertTodo(newTodotest);
-          //_firebaseModel.insertTodo(newTodotest);
-          //_notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
+
+          insert(_eventName,_eventDate,_eventLocation);
+
         }
       }
     });
+  }
+
+  void insert(var one, var two, var three) async {
+    var _lastInsertedId = 1;
+
+    Todo newTodotest = Todo(name: one, dateTime: two.toString(), location: three);
+        _lastInsertedId = await _model.insertTodo(newTodotest);
+        _firebaseModel.insertTodo(newTodotest);
+          
+        //Creating a notification of the newly added elements of the table
+        _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$one" at "$two" is on ($three)','payload');
+        
+        List<Todo> to = await _model.getAllTodos();
+
+        print(to);
+
+        setState(() => slist = to);
+          
   }
 
   void _handleSubmitted(String text) {
@@ -147,6 +168,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
   }
 }
 
+//Chat message class
 class ChatMessage extends StatelessWidget {
   ChatMessage({this.text, this.name, this.type});
 
@@ -203,6 +225,7 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _notifications.init();
     return new Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: new Row(

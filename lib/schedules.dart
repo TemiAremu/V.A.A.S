@@ -38,7 +38,7 @@ List<String> schedulelist = [
   ];
 
   List<Todo> slist = [
-   //Todo(name:"1",location: "2",dateTime: "3")
+   
   ];
 
   int listilelengthcheck = 1;

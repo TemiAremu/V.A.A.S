@@ -13,22 +13,12 @@ import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
 
-class Grade {
-  int sid;
-  String grade;
-
-  Grade({this.sid, this.grade});
-
-  String toString() {
-    return 'Grade($sid, $grade)';
-  }
-}
-
-class GradeFrequency {
+//Class for Calculating the frequency of Events
+class EventFrequency {
   String location;
   int frequency;
 
-  GradeFrequency({this.location, this.frequency});
+  EventFrequency({this.location, this.frequency});
 
   String toString() {
     return 'GradeFrequency($location, $frequency)';
@@ -46,7 +36,6 @@ class ChartPage extends StatefulWidget {
 
 List<String> locations = [];
 
-List<String> ltest = ["A","B","C","D","A","B","C","D","F"];
 var map = Map();
 
 var keys = [];
@@ -68,6 +57,13 @@ class _ChartPageState extends State<ChartPage> {
               getinfo();
             },
           ),
+          IconButton(
+            icon: Icon(Icons.table_chart),
+            onPressed: () 
+            { 
+              table(context);
+            },
+          ),
         ]
       ),
       body:Container(
@@ -76,11 +72,11 @@ class _ChartPageState extends State<ChartPage> {
           height: 500.0,
           child: charts.BarChart(
             [
-              charts.Series<GradeFrequency, String>(
+              charts.Series<EventFrequency, String>(
                 id: 'Grade Frequency',
                 colorFn: (a,b) => charts.MaterialPalette.blue.shadeDefault,
-                domainFn: (GradeFrequency freq, unused) => freq.location,
-                measureFn: (GradeFrequency freq, unused) => freq.frequency,
+                domainFn: (EventFrequency freq, unused) => freq.location,
+                measureFn: (EventFrequency freq, unused) => freq.frequency,
                 data: _calculateGradeFrequencies2(),
               ),
             ], 
@@ -92,7 +88,12 @@ class _ChartPageState extends State<ChartPage> {
     );
   }
 
+  //Function to open the table Page
+   Future <void> table(BuildContext context) async {
+    var event1 = await Navigator.pushNamed(context, '/table');
+  }
 
+  
   Future<void> getinfo() async {
     
     print("Getting location");
@@ -102,6 +103,7 @@ class _ChartPageState extends State<ChartPage> {
     }
   }
 
+  //Gets the top five frequencies
   Future<void> getTopFive() async {
 
   locations.forEach((element) {
@@ -116,11 +118,11 @@ class _ChartPageState extends State<ChartPage> {
     print(keys);
   }
 
-   List<GradeFrequency> _calculateGradeFrequencies2() {
+   List<EventFrequency> _calculateGradeFrequencies2() {
     getinfo();
     getTopFive();
 
-    return keys.map((location) => GradeFrequency(
+    return keys.map((location) => EventFrequency(
       location: location,
       frequency: map[location]
     )).toList();

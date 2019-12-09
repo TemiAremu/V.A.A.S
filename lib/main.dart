@@ -9,6 +9,7 @@ import 'welcome.dart';
 import 'schedules.dart';
 import 'chart.dart';
 import 'map.dart';
+import 'datatable.dart';
 
 void main() => runApp(new MyApp());
 
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      //MyHomePageWelcome(title: 'Flutter Demo Home Page'),
+      //Routes created to get through the pages
        routes: <String, WidgetBuilder>{
         '/chat': (BuildContext context) {
           return new HomePageDialogflow();
@@ -53,7 +54,10 @@ class MyApp extends StatelessWidget {
         },
         '/translate': (BuildContext context){
           return new NotePage();
-        }
+        },
+        '/table': (BuildContext context){
+          return new TablePage();
+        },
       }
     );
   }
