@@ -49,8 +49,10 @@ class _SchedulingPageState extends State<SchedulingPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
+      //resizeToAvoidBottomPadding: false,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -163,7 +165,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 
