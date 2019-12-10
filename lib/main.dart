@@ -11,60 +11,67 @@ import 'chart.dart';
 import 'map.dart';
 import 'datatable.dart';
 
+import 'dart:async';
+
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Example Dialogflow Flutter',
-      theme: new ThemeData(
-        primarySwatch: Colors.orange,  
-      ),
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
-      localizationsDelegates: [
-        FlutterI18nDelegate(
-          useCountryCode: false,
-          fallbackFile: 'en',
-          path: 'assets/i18n',
-        ),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      //Routes created to get through the pages
-       routes: <String, WidgetBuilder>{
-        '/chat': (BuildContext context) {
-          return new HomePageDialogflow();
-        },
-        '/voice': (BuildContext context) {
-          return new VoiceHome();
-        },
-        '/schedules': (BuildContext context) {
-          return MyHomePage();
-        },
-        '/manual': (BuildContext context) {
-          return SchedulingPage(title: 'Schedule An Event');
-        },
-        '/chart': (BuildContext context) {
-          return ChartPage(title: 'Most used locations');
-        },
-        '/map': (BuildContext context) {
-          return new HomeMap();
-        },
-        '/translate': (BuildContext context){
-          return new NotePage();
-        },
-        '/table': (BuildContext context){
-          return new TablePage();
-        },
-      }
-    );
+      return StreamBuilder(
+        stream: bloc.darkThemeEnabled,
+        initialData: false,
+        builder: (context, snapshot) => 
+        MaterialApp(
+            title: 'Example Dialogflow Flutter',
+            theme: snapshot.data ? ThemeData.dark() : ThemeData(primarySwatch: Colors.orange),
+            debugShowCheckedModeBanner: false,
+            home: MyHomePage(darkThemeEnabled: snapshot.data),
+            localizationsDelegates: [
+                FlutterI18nDelegate(
+                  useCountryCode: false,
+                  fallbackFile: 'en',
+                  path: 'assets/i18n',
+                ),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+          //Routes created to get through the pages
+          routes: <String, WidgetBuilder>{
+            '/chat': (BuildContext context) {
+              return new HomePageDialogflow();
+            },
+            '/voice': (BuildContext context) {
+              return new VoiceHome();
+            },
+            '/schedules': (BuildContext context) {
+              return MyHomePage();
+            },
+            '/manual': (BuildContext context) {
+              return SchedulingPage(title: 'Schedule An Event');
+            },
+            '/chart': (BuildContext context) {
+              return ChartPage(title: 'Most used locations');
+            },
+            '/map': (BuildContext context) {
+              return new HomeMap();
+            },
+            '/translate': (BuildContext context){
+              return new NotePage();
+            },
+            '/table': (BuildContext context){
+              return new TablePage();
+            },
+          }
+        ) );
   }
 }
 
+class Bloc {
+  final _themeController = StreamController<bool>();
+  get changeTheme => _themeController.sink.add;
+  get darkThemeEnabled => _themeController.stream;
+}
 
-
-
-
+final bloc = Bloc();
 
