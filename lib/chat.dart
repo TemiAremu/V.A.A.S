@@ -77,7 +77,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     ChatMessage message = new ChatMessage(
       text: response.getMessage() ??
           new CardDialogflow(response.getListMessage()[0]).title,
-      name: "Bot",
+      name: "V.A.A.S",
       type: false,
     );
     setState((){

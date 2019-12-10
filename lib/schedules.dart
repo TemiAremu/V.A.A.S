@@ -1,3 +1,4 @@
+import 'package:final_project_jarvis/main.dart';
 import 'package:flutter/material.dart';
 import 'chat.dart';
 import 'voice.dart';
@@ -13,14 +14,18 @@ import 'model/todoModelFirebase.dart';
 import 'model/todoFirebase.dart';
 import 'map.dart';
 
+
 Todo t;
 
 CollectionReference dbReplies = Firestore.instance.collection('replies');
 
+
+
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.darkThemeEnabled}) : super(key: key);
 
   final String title;
+  final bool darkThemeEnabled;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -77,9 +82,9 @@ List<SnackBar> _pages = [
     super.initState();
     
     _updateTodo();
+   
   }
   
-
   Widget build(BuildContext context) {
     //_updateTodo();
     return Scaffold(
@@ -124,6 +129,7 @@ List<SnackBar> _pages = [
               _deleteTodo();
             }
           ),
+         
     
         ]
 
@@ -149,6 +155,19 @@ List<SnackBar> _pages = [
         ),
         
 
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              title: Text("DarK Mode"),
+              trailing: Switch(
+                value: widget.darkThemeEnabled,
+                onChanged: bloc.changeTheme,
+              ),
+            )
+          ],
+        )
       ),
       bottomNavigationBar: BottomNavigationBar(
        items: _pages.map((SnackBar page) {
@@ -267,6 +286,7 @@ Future<void> _addTodo() async {
 
     setState(() => slist = to);
 
+     print(widget.darkThemeEnabled);
     
   }
 
