@@ -11,6 +11,7 @@ import 'welcome.dart';
 import 'schedules.dart';
 import 'map.dart';
 
+//Author: Temi
 class Scheduling {
   String name;
   String location;

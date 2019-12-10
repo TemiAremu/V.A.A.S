@@ -13,6 +13,9 @@ import 'voice.dart';
 import 'welcome.dart';
 import 'schedules.dart';
 
+
+//Author: Dikachi
+
 //Class for Calculating the frequency of Events
 class EventFrequency {
   String location;

@@ -15,6 +15,9 @@ import 'map.dart';
 
 import 'schedules.dart';
 
+//Author: Ajevan
+//Chatbot System
+
    final _model = TodoModel();
    final _firebaseModel = TodoModelFireBase();
    var _notifications = Notifications();
@@ -29,10 +32,12 @@ class HomePageDialogflow extends StatefulWidget {
   _HomePageDialogflow createState() => new _HomePageDialogflow();
 }
 
+
 class _HomePageDialogflow extends State<HomePageDialogflow> {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = new TextEditingController();
 
+//Function to build the set message textfield below the chat window
   Widget _buildTextComposer() {
     return new IconTheme(
       data: new IconThemeData(color: Theme.of(context).accentColor),
@@ -60,6 +65,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     );
   }
 
+//Function handles the response based on the user input
   void Response(query) async {
     _textController.clear();
     AuthGoogle authGoogle =
@@ -81,7 +87,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
       var m = response.getMessage();
       var arr = m.split(" "); 
 
-      //Parsing trough the response to get the variables to add to the databases
+      //Parsing through the response to get the variables to add to the databases
       if (arr.length > 8){
         if (arr[0] == "Done!"){
           print("Hello");
@@ -112,6 +118,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     });
   }
 
+//Function helps to insert into the local and online database then creates a notification as the message is popped up
   void insert(var one, var two, var three) async {
     var _lastInsertedId = 1;
 
@@ -130,11 +137,12 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
           
   }
 
+//Function handles the printing of the user message to the chatbot system
   void _handleSubmitted(String text) {
     _textController.clear();
     ChatMessage message = new ChatMessage(
       text: text,
-      name: "Promise",
+      name: "User",
       type: true,
     );
     setState(() {
@@ -176,6 +184,8 @@ class ChatMessage extends StatelessWidget {
   final String name;
   final bool type;
 
+
+//These functions set the styles for the bot and user message 
   List<Widget> otherMessage(context) {
     return <Widget>[
       new Container(
