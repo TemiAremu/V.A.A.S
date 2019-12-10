@@ -15,6 +15,8 @@ import 'model/todoFirebase.dart';
 import 'map.dart';
 
 
+//Author: Dikachi and Temi
+
 Todo t;
 
 CollectionReference dbReplies = Firestore.instance.collection('replies');
@@ -68,7 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
 List<SnackBar> _pages = [
     SnackBar(title: 'Add', icon: Icons.add),
     SnackBar(title: 'Chat', icon: Icons.chat),
-    //SnackBar(title: 'Translate', icon: Icons.g_translate),
   ];
 
   int _pageIndex = 0;
@@ -187,13 +188,6 @@ List<SnackBar> _pages = [
            {
               _showchat(context);
            }
-          
-           /*
-           if(index == 3)
-           {
-             _translate(context);
-           } 
-           */
          });
        },     
      ),
@@ -238,15 +232,6 @@ Future <void> _translate(BuildContext context) async {
     }
 
    Future<void> _editTodo() async {
-    /*
-    Todo todoToUpdate = Todo(
-      id: _selectedIndex,
-      //name: pages[_selectedIndex-1].sid,
-      //grade: pages[_selectedIndex-1].grade
-    );
-    _model.updateTodo(todoToUpdate);
-    */
-
     Todo todoToUpdate = Todo(
       id: _selectedIndex + 1,
       name: t.name,
@@ -269,8 +254,6 @@ Future<void> _addTodo() async {
     Todo newTodo = Todo(name: t.name, dateTime: t.dateTime, location: t.location);
     _lastInsertedId = await _model.insertTodo(newTodo);
     _firebaseModel.insertTodo(newTodo);
-
-    //slist.add(Todo(name: newTodo.name, dateTime: newTodo.dateTime, location: newTodo.location));
     isEmpty = false;
     
     _updateTodo();
@@ -278,14 +261,9 @@ Future<void> _addTodo() async {
 }
 
    Future<void> _updateTodo() async {
-    //pages.clear();
-    
     List<Todo> to = await _model.getAllTodos();
-
-    print(to);
-
-    setState(() => slist = to);
-
+     print(to);
+        setState(() => slist = to);
      print(widget.darkThemeEnabled);
     
   }
@@ -323,6 +301,7 @@ Future <void> _showmanual(BuildContext context) async {
 
   }
 
+//Function for the dialog box 
   Future <void> _showDialog(BuildContext context) async {
     // flutter defined function
     showDialog(
@@ -371,12 +350,6 @@ Future <void> _showmanual(BuildContext context) async {
     CollectionReference events = Firestore.instance.collection('Calendar Events');
     var newDocument = await events.add(todo.toMap());
     print(newDocument);
-    /*
-    Firestore.instance.runTransaction((Transaction tx) async {
-    var _result = await dbReplies.add(todo.toMap());
-    print(_result);
-    });
-    */
   }
 
   Future <void> deleteFirestoreItem(int id) async{

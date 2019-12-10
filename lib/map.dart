@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 
 //Author: Temi
+
 class HomeMap extends StatefulWidget {
   HomeMap({Key key, this.title}) : super(key: key);
 
@@ -29,26 +30,13 @@ class HomeMap extends StatefulWidget {
 class _Map extends State<HomeMap> {
  
   final path = [LatLng(43.9457842,-78.893896), LatLng(43.9437842,-78.897896), LatLng(43.9457842,-78.895896)];
-
-  
   var _geolocator = Geolocator();
-  //var _location = Location();
   var _positionMessage = '';
 
   
   
 
   void _updateLocation(userLocation) {
-    // location plug-in:
-    /*
-    _location.getLocation().then((userLocation) {
-      setState(() {
-        _positionMessage = userLocation.latitude.toString() + ', ' + userLocation.longitude.toString();
-      });
-      print('New location: ${userLocation.latitude}, ${userLocation.longitude}.');
-    });
-    */
-
     // geolocator plug-in:
     setState(() {
       _positionMessage = userLocation.latitude.toString() + ', ' + userLocation.longitude.toString();
@@ -80,15 +68,6 @@ class _Map extends State<HomeMap> {
   
   @override 
   void initState() {
-        // this is called when the location changes
-    /*
-    // location plug-in version:
-    _location.onLocationChanged().listen((LocationData userLocation) {
-      setState(() {
-        _positionMessage = userLocation.latitude.toString() + ', ' + userLocation.longitude.toString();
-      });
-    });
-    */
     // geolocator plug-in version:
     _geolocator.checkGeolocationPermissionStatus().then((GeolocationStatus geolocationStatus) {
       print('Geolocation status: $geolocationStatus.');
@@ -158,5 +137,4 @@ class _Map extends State<HomeMap> {
         ],
       );
   }
-
 }

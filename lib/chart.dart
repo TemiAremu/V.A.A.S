@@ -97,10 +97,8 @@ class _ChartPageState extends State<ChartPage> {
   }
 
   
-  Future<void> getinfo() async {
-    
+  Future<void> getinfo() async { 
     print("Getting location");
-
     for (Todo location in slist) {
       locations.add(location.location);
     }
@@ -130,7 +128,6 @@ class _ChartPageState extends State<ChartPage> {
       frequency: map[location]
     )).toList();
   }
-
 }
 
 

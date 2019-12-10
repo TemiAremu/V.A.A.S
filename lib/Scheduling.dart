@@ -32,25 +32,23 @@ class SchedulingPage extends StatefulWidget {
 }
 
 class _SchedulingPageState extends State<SchedulingPage> {
-  var _notifications = Notifications(); //Kizito was here
+  var _notifications = Notifications(); 
 
   DateTime _eventDate = DateTime.now();
   String _eventName = '';
   String _eventLocation = '';
 
-   var _todoItem1;
+  var _todoItem1;
   var _todoItem2;
-  //var _todoItem3;
 
   @override 
   Widget build(BuildContext context) {
-    _notifications.init(); //Kizito was here
+    _notifications.init(); 
     DateTime now = DateTime.now();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      //resizeToAvoidBottomPadding: false,
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
         child: SingleChildScrollView(
@@ -80,7 +78,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
               },
             ),
             RaisedButton(
-              child: Text('lookup Location'), // Temi said I should change
+              child: Text('lookup Location'), 
                   color: Colors.deepOrange,
                   textColor: Colors.white,
                   onPressed: () {
@@ -92,7 +90,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 RaisedButton(
-                  child: Text('Select Date'), // Temi said I should change
+                  child: Text('Select Date'), 
                   color: Colors.deepOrange,
                   textColor: Colors.white,
                   onPressed: () {
@@ -125,7 +123,7 @@ class _SchedulingPageState extends State<SchedulingPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 RaisedButton(
-                  child: Text('Select Time'), //Temi said I should change
+                  child: Text('Select Time'),
                   color: Colors.deepOrangeAccent,
                   textColor: Colors.white,
                   onPressed: () {
@@ -186,30 +184,12 @@ class _SchedulingPageState extends State<SchedulingPage> {
     return '${dateTime.year}/${dateTime.month}/${dateTime.day}';
   }
 
-
-//Kizito was here to 
-   void _notificationNow(){
+   void _notificationNow() {
      _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$_eventName" at "$_eventLocation" is on ($_eventDate)','payload');
    }  
 
    Future <void> _maps(BuildContext context) async {
   var event2 = await Navigator.pushNamed(context, '/map');
-}
-
-  // Future<void> _notificationLater() async {
-  //   var when = DateTime.now().add(Duration(seconds: 3));
-  //   await _notifications.sendNotificationLater('title', 'body', when, 'payload');
-  // }
-
-  // Future<void> _showPendingNotifications() async {
-  //   var pendingNotificationRequests = await _notifications.getPendingNotificationRequests();
-  //   print('Pending requests:');
-  //   for (var pendingRequest in pendingNotificationRequests) {
-  //     print('${pendingRequest.id}/${pendingRequest.title}/${pendingRequest.body}');
-  //   }
-  //}
-// all the way here
-
-
+  }
 
 }
