@@ -85,29 +85,54 @@ class _VoiceHomeState extends State<VoiceHome> {
           
   }
 
+   Future <void> _showhelp(BuildContext context) async {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Need Help?"),
+          content: new Text("Click Microphone and SAY Set an event called #NAME# for #DATE# at #TIME# #LOCATION#"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            
+          ],
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     _notifications.init();
     return Scaffold(
+      //App BAr
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text("Talk to V.A.A.S"),
+        actions: <Widget>
+        [
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: () 
+            { 
+              _showhelp(context);
+            },
+          ),
+        ]
+      ),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              child: 
-                Text("SAY",
-                textScaleFactor: 2.0,
-                style: TextStyle(fontWeight: FontWeight.bold)
-              )
-            ),
-            Container(
-              child: 
-                Text("Set an event called #NAME# for #DATE# at #TIME# #LOCATION#",
-                textScaleFactor: 2.0,
-                style: TextStyle(fontWeight: FontWeight.bold)
-              )
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
