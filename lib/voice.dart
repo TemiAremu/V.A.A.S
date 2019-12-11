@@ -96,11 +96,17 @@ class _VoiceHomeState extends State<VoiceHome> {
           children: <Widget>[
             Container(
               child: 
-                Text("SAY")
+                Text("SAY",
+                textScaleFactor: 2.0,
+                style: TextStyle(fontWeight: FontWeight.bold)
+              )
             ),
             Container(
               child: 
-                Text("Set an event called #insertname# for #insertdate# at #inserttime# #insertlocation#")
+                Text("Set an event called #NAME# for #DATE# at #TIME# #LOCATION#",
+                textScaleFactor: 2.0,
+                style: TextStyle(fontWeight: FontWeight.bold)
+              )
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -151,12 +151,45 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     Response(text);
   }
 
+  Future <void> _showhelp(BuildContext context) async {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Need Help?"),
+          content: new Text("Set an event called #NAME# for #DATE# at #TIME# #LOCATION#"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
         title: new Text("Chat with V.A.A.S"),
+        actions: <Widget>
+        [
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: () 
+            { 
+              _showhelp(context);
+            },
+          ),
+        ]
       ),
       body: new Column(children: <Widget>[
         new Flexible(

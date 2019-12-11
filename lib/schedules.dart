@@ -86,7 +86,7 @@ List<SnackBar> _pages = [
   }
   
   Widget build(BuildContext context) {
-    //_updateTodo();
+    _updateTodo();
     return Scaffold(
       appBar: AppBar
       (
@@ -200,7 +200,7 @@ List<SnackBar> _pages = [
   {
     bool isSelected = _selectedIndex == index;
     return Container(
-      decoration: BoxDecoration(color: isSelected ? Colors.orange :Colors.white),
+      decoration: BoxDecoration(color: isSelected ? Colors.orange[500] :Colors.orange[200]),
       child: ListTile(
           title: Text(passedindex.name + "    " + passedindex.dateTime),
           subtitle: Text(passedindex.location),
@@ -266,8 +266,6 @@ Future<void> _addTodo() async {
       templist.add(to[i].id);
     }
 
-    print(indexids);
-
     setState(() => slist = to);
 
     setState(() => indexids = templist);
@@ -315,8 +313,8 @@ Future <void> _showmanual(BuildContext context) async {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Alert Dialog title"),
-          content: new Text("Alert Dialog body"),
+          title: new Text("Add Options"),
+         
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
              new FlatButton(
