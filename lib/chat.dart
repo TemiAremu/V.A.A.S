@@ -156,7 +156,7 @@ class _HomePageDialogflow extends State<HomePageDialogflow> {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new Text("Flutter and Dialogflow"),
+        title: new Text("Chat with V.A.A.S"),
       ),
       body: new Column(children: <Widget>[
         new Flexible(

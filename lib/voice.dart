@@ -1,8 +1,19 @@
-import 'chat.dart';
-import 'main.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:speech_recognition/speech_recognition.dart';
+
+import 'notifications.dart';
+import 'model/todo_model.dart';
+import 'model/todo.dart';
+
+import 'model/todoModelFirebase.dart';
+
+import 'schedules.dart';
+
+ final _model = TodoModel();
+   final _firebaseModel = TodoModelFireBase();
+   var _notifications = Notifications();
 
 class VoiceHome extends StatefulWidget {
   @override
@@ -47,14 +58,50 @@ class _VoiceHomeState extends State<VoiceHome> {
         );
   }
 
+  void entervoice(String m)
+  {
+    var arr = m.split(" ");
+
+    var _eventName = arr[4];
+    var _eventDate = arr[6] + " at " + arr[8] + arr[9];
+    var _eventLocation = arr[10];
+
+    insertfromvoice(_eventName,_eventDate,_eventLocation);
+  }
+
+  void insertfromvoice(var one, var two, var three) async {
+    var _lastInsertedId = 1;
+
+    Todo newTodotest = Todo(name: one, dateTime: two.toString(), location: three);
+        _lastInsertedId = await _model.insertTodo(newTodotest);
+        _firebaseModel.insertTodo(newTodotest);
+          
+        //Creating a notification of the newly added elements of the table
+        _notifications.sendNotificationNow( 'V.A.A.S', 'The event "$one" at "$two" is on ($three)','payload');
+        
+        List<Todo> to = await _model.getAllTodos();
+
+        setState(() => slist = to);
+          
+  }
+
   @override
   Widget build(BuildContext context) {
+    _notifications.init();
     return Scaffold(
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Container(
+              child: 
+                Text("SAY")
+            ),
+            Container(
+              child: 
+                Text("Set an event called #insertname# for #insertdate# at #inserttime# #insertlocation#")
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -98,6 +145,7 @@ class _VoiceHomeState extends State<VoiceHome> {
                   backgroundColor: Colors.black12,
                   onPressed: () {
                    pastetext =  resultText;
+                   entervoice(pastetext);
                   },
                 ),
 

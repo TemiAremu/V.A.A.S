@@ -37,7 +37,8 @@ dependencies:
   charts_flutter:
   flutter_i18n:
   location:
-  geolocator: 
+  geolocator:
+  flutter_spinkit: ^4.0.0
 
 dev_dependencies:
   flutter_test:

@@ -40,10 +40,6 @@ class SnackBar {
   SnackBar({this.title, this.icon});
 }
 
-List<String> schedulelist = [
-    "Test1", "Test2", "Test3", "Test4"
-  ];
-
   List<Todo> slist = [
    
   ];
@@ -97,20 +93,6 @@ List<SnackBar> _pages = [
         title: Text("Schedule list"),
         actions: <Widget>
         [
-          IconButton(
-            icon: Icon(Icons.show_chart),
-            onPressed: () 
-            { 
-              _showchart(context);
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.g_translate),
-            onPressed: ()
-            {
-              _translate(context);
-            },  
-          ),
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () 
@@ -169,7 +151,24 @@ List<SnackBar> _pages = [
                 value: widget.darkThemeEnabled,
                 onChanged: bloc.changeTheme,
               ),
-            )
+            ),
+          IconButton(
+            icon: Icon(Icons.show_chart),
+            onPressed: () 
+            { 
+              _showchart(context);
+            },
+          ),
+
+          IconButton(
+            icon: Icon(Icons.g_translate),
+            onPressed: ()
+            {
+              _translate(context);
+            },  
+          ),
+
+
           ],
         )
       ),

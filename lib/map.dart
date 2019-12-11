@@ -9,6 +9,8 @@ import 'package:flutter/rendering.dart';
 //import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 //Author: Temi
 
 class HomeMap extends StatefulWidget {
@@ -93,8 +95,11 @@ class _Map extends State<HomeMap> {
 
   Widget loading()
   {
-    return Container(
-        child: Text("MAP IS LOADING, PLEASE WAIT")
+    return Center(
+        child: SpinKitRotatingCircle(
+          color: Colors.orange,
+          size: 200.0
+        ),
       );
   }
 
