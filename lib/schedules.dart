@@ -48,6 +48,9 @@ List<String> schedulelist = [
    
   ];
 
+   List indexids = [];
+  
+
   int listilelengthcheck = 1;
 
     final _model = TodoModel();
@@ -95,7 +98,7 @@ List<SnackBar> _pages = [
         actions: <Widget>
         [
           IconButton(
-            icon: Icon(Icons.table_chart),
+            icon: Icon(Icons.show_chart),
             onPressed: () 
             { 
               _showchart(context);
@@ -196,7 +199,6 @@ List<SnackBar> _pages = [
 
    Widget tilebuild(Todo passedindex,int index)
   {
-    print(passedindex);
     bool isSelected = _selectedIndex == index;
     return Container(
       decoration: BoxDecoration(color: isSelected ? Colors.orange :Colors.white),
@@ -233,7 +235,7 @@ Future <void> _translate(BuildContext context) async {
 
    Future<void> _editTodo() async {
     Todo todoToUpdate = Todo(
-      id: _selectedIndex + 1,
+      id: indexids[_selectedIndex],
       name: t.name,
       dateTime: t.dateTime,
       location: t.location
@@ -246,12 +248,8 @@ Future <void> _translate(BuildContext context) async {
   }
 
 Future<void> _addTodo() async {
-    print(t.name);
-    print(t.dateTime);
-    print(t.location);
-
-    
     Todo newTodo = Todo(name: t.name, dateTime: t.dateTime, location: t.location);
+
     _lastInsertedId = await _model.insertTodo(newTodo);
     _firebaseModel.insertTodo(newTodo);
     isEmpty = false;
@@ -262,16 +260,25 @@ Future<void> _addTodo() async {
 
    Future<void> _updateTodo() async {
     List<Todo> to = await _model.getAllTodos();
-     print(to);
-        setState(() => slist = to);
-     print(widget.darkThemeEnabled);
+
+    List templist = [];
+    for (int i = 0; i < to.length;i++)
+    {
+      templist.add(to[i].id);
+    }
+
+    print(indexids);
+
+    setState(() => slist = to);
+
+    setState(() => indexids = templist);
     
   }
 
   Future<void> _deleteTodo() async {
-    _model.deleteTodo(_selectedIndex+1);
+    _model.deleteTodo(indexids[_selectedIndex]);
     slist.removeAt(_selectedIndex);
-    isEmpty = true;
+    isEmpty = true; 
     _updateTodo();
     
   }
@@ -349,7 +356,7 @@ Future <void> _showmanual(BuildContext context) async {
   Future <int> insertFirestoreItem(Todo todo)async{
     CollectionReference events = Firestore.instance.collection('Calendar Events');
     var newDocument = await events.add(todo.toMap());
-    print(newDocument);
+    
   }
 
   Future <void> deleteFirestoreItem(int id) async{

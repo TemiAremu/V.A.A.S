@@ -15,6 +15,7 @@ class _VoiceHomeState extends State<VoiceHome> {
   bool _isListening = false;
 
   String resultText = "";
+  String pastetext = "";
 
   @override
   void initState() {
@@ -92,6 +93,14 @@ class _VoiceHomeState extends State<VoiceHome> {
                           );
                   },
                 ),
+                FloatingActionButton(
+                  child: Icon(Icons.content_paste),
+                  backgroundColor: Colors.black12,
+                  onPressed: () {
+                   pastetext =  resultText;
+                  },
+                ),
+
               ],
             ),
             Container(
@@ -108,6 +117,11 @@ class _VoiceHomeState extends State<VoiceHome> {
                 resultText,
                 style: TextStyle(fontSize: 24.0),
               ),
+            ),
+            Container(
+              child: Text(
+                pastetext
+              )
             )
           ],
         ),
