@@ -1,0 +1,29 @@
+1. To run the voice section of the program, you need to run the emulator on API 24
+
+
+
+
+
+2. You will also have to open the options page for the emulator, click on Microphone, and set all 3 options to true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. After that you need to open the settings for the phone and select Apps. After that, select the "final_project_jarvis" app and allow permissions for Microphone and location
+ 
+
+4. Because you will be running on API 24, the program might also require you to Update your google play services on the emulator to run the maps section.S
+
+
